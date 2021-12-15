@@ -88,11 +88,9 @@ public class RecipeService {
     boolean hasPermission(@NonNull final Recipe recipe) {
         String currentLoginUser = SecurityUtils.getCurrentUserLogin();
         User recipeUser = recipe.getUser();
-        if(StringUtils.hasText(currentLoginUser) && recipeUser.getGuid().equals(currentLoginUser)) {
-            log.debug("User does have permission to exit/delete record.");
-            return true;
-        } else {
+        if(!StringUtils.hasText(currentLoginUser) || !recipeUser.getGuid().equals(currentLoginUser)) {
             throw new AccessDeniedException("You don't have permission to edit/delete this record.");
         }
+        return true;
     }
 }

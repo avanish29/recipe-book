@@ -55,7 +55,7 @@ public class RecipeController {
     public ResponseEntity<RecipeResponse> createRecipe(@RequestBody @Valid RecipeRequest recipeRequest) throws URISyntaxException {
         log.debug("REST request to CREATE recipe with payload : {}", recipeRequest);
         RecipeResponse responseData = recipeService.createRecipe(recipeRequest);
-        return ResponseEntity.created(new URI(String.format("/v1/recipes/%s", responseData.getUuid())))
+        return ResponseEntity.created(new URI(String.format("/recipes/%s", responseData.getUuid())))
                 .body(responseData);
     }
 
