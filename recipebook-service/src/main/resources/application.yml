@@ -1,0 +1,54 @@
+# ======================================================================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ======================================================================================================================
+server:
+  port: 8080
+  error:
+    include-stacktrace: NEVER
+
+spring:
+  application:
+    name: recipebook-service
+  output:
+    ansi:
+      enabled: ALWAYS
+  jackson:
+    default-property-inclusion: ALWAYS # always, non_null, non_absent, non_default, non_empty
+    deserialization:
+      fail-on-unknown-properties: false
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+  #Flyway data migration properties (flyway.*)
+  #https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#application-properties.data-migration
+  flyway:
+    enabled: false
+    validate-on-migrate: false
+    baseline-description: true
+    baseline-on-migrate: true
+    table: schema_version
+
+# ======================================================================================================================
+# Logging configuration (logging.*)
+#
+# Full list of properties with default values at:
+# https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html
+# ======================================================================================================================
+logging:
+  level:
+    root: INFO
+  file:
+    name: ..//logs//${spring.application.name}.log
+
+api:
+  auth:
+    jwt:
+      secret: JDJ5JDEwJEdCSVFhZjZnRWVVOWltOFJUS2hJZ09aNXE1aGFEQS5BNUd6b2NTcjVDUi5zVThPVXNDVXdxasTARSIHNXDkDLWPSKAGXFSYBC
+      tokenvalidityinseconds: 120
+      refreshtokendurationinsec: 3600

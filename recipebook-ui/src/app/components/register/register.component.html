@@ -1,0 +1,44 @@
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Register</mat-card-title>
+    </mat-card-header>
+
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="app-form">
+
+      <mat-card-content>
+        <mat-form-field class="full-width">
+          <input matInput type="text" placeholder="First Name" formControlName="firstName" class="form-control" required>
+          <mat-error *ngIf="registrationForm.controls['firstName'].hasError('required')">Firstname is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput type="text" placeholder="Last Name" formControlName="lastName" class="form-control" required>
+          <mat-error *ngIf="registrationForm.controls['lastName'].hasError('required')">Lastname is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput type="text" placeholder="Email" formControlName="email" class="form-control" required>
+          <mat-error *ngIf="registrationForm.controls['email'].hasError('required')">Email is required</mat-error>
+          <mat-error *ngIf="registrationForm.controls['email'].hasError('email')">Email is invalid</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput type="password" placeholder="Password" formControlName="password" class="form-control" required>
+          <mat-error *ngIf="registrationForm.controls['firstName'].invalid">Password is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword" class="form-control" required>
+          <mat-error *ngIf="registrationForm.controls['confirmPassword'].hasError('required')">Confirm Password is required</mat-error>
+          <mat-error *ngIf="registrationForm.controls['confirmPassword'].hasError('matching')">Confirm Password does not match</mat-error>
+        </mat-form-field>
+
+      </mat-card-content>
+
+      <button mat-stroked-button color="accent" class="btn-block" type="submit" [disabled]="registrationForm.invalid || loading" style="width: 45%; margin-right: 10px;">Register</button>
+      <a mat-button mat-stroked-button routerLink="/login" routerLinkActive="active" style="width: 45%; margin-left: 10px;">Sing In</a>
+
+    </form>
+  </mat-card>
+</div>

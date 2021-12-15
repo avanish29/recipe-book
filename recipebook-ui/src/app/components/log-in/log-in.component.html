@@ -1,0 +1,35 @@
+<div class="login-wrapper" fxLayout="row" fxLayoutAlign="center center">
+
+  <mat-card class="box">
+
+    <mat-card-header>
+      <mat-card-title>Log in</mat-card-title>
+    </mat-card-header>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="app-form">
+
+      <mat-card-content>
+
+        <mat-form-field class="full-width">
+          <input matInput type="text" placeholder="Email" formControlName="username" class="form-control" required>
+          <mat-error *ngIf="loginForm.controls['username'].hasError('required')">Email is required</mat-error>
+          <mat-error *ngIf="loginForm.controls['username'].hasError('email')">Email is invalid</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput type="password" placeholder="Password" formControlName="password" class="form-control" required>
+          <mat-error *ngIf="loginForm.controls['password'].hasError('required')">Password is required</mat-error>
+        </mat-form-field>
+
+      </mat-card-content>
+
+      <div class="form-element">
+        <button mat-stroked-button color="accent" class="btn-block" type="submit" [disabled]="loginForm.invalid || loading" style="width: 45%; margin-right: 10px;">Log in</button>
+        <a mat-button mat-stroked-button routerLink="/register" routerLinkActive="active" style="width: 45%; margin-left: 10px;">Register</a>
+      </div>
+
+    </form>
+
+  </mat-card>
+
+</div>

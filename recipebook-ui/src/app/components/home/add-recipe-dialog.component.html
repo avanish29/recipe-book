@@ -1,0 +1,64 @@
+<h1 mat-dialog-title>New Recipe</h1>
+<mat-dialog-content class="no-scroll-content">
+    <div class="alert alert-danger alert-dismissible fade" role="alert" *ngIf="errorMsg.length > 0">
+        <span class="alert-msg">{{ errorMsg }}</span>
+        <button mat-icon-button matSuffix aria-label="Close" (click)="closeAlert()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <form [formGroup]="addRecipeFormGroup" class="form-field-full">
+        <div fxLayout="column wrap" fxLayoutGap="5px grid">
+            <div fxFlex="100">
+                <mat-form-field appearance="outline">
+                    <mat-label> Name </mat-label>
+                    <input matInput placeholder="Homemade Pizza" formControlName="name" cdkFocusInitial style="width: 100%;" required>
+                    <mat-error *ngIf="addRecipeFormGroup.controls['name'].hasError('required')"> Recipe name is required. </mat-error>
+                    <mat-error *ngIf="addRecipeFormGroup.controls['name'].hasError('minlength') || addRecipeFormGroup.controls['name'].hasError('maxlength')"> Name name must be 5-250 characters. </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100">
+                <mat-form-field appearance="outline">
+                    <mat-label> Suitable For </mat-label>
+                    <input type="number" matInput placeholder="" formControlName="suitableFor" min="1" required>
+                    <mat-error *ngIf="addRecipeFormGroup.controls['suitableFor'].hasError('required')"> Recipe suitable for is required. </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100">
+                <div style="margin-bottom: 15px;">
+                    <mat-radio-group aria-label="Select an option" formControlName="vegetarian" required>
+                        <mat-radio-button value="true" [checked]="model.vegetarian === true"> Vegetarian </mat-radio-button>
+                        <mat-radio-button value="false" [checked]="model.vegetarian === false"> Non Vegetarian </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+
+            <div fxFlex="100" formArrayName="ingredients">
+                <div *ngFor="let ingredient of ingredientsFormArray.controls; let ingredientindex = index">
+                    <mat-form-field appearance="outline" [formGroupName]="ingredientindex">
+                        <mat-label> Ingredient {{ingredientindex}} </mat-label>
+                        <input matInput placeholder="2 teaspoons salt" formControlName="ingredient" required>
+                        <mat-icon matPrefix class="my-icon" (click)="removeIngredient(ingredientindex)">delete</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div fxFlex="100">
+                <mat-icon matPrefix class="my-icon" (click)="addIngredient('')">add</mat-icon>
+            </div>
+
+            <div fxFlex="100">
+                <mat-form-field appearance="outline">
+                    <mat-label> Cooking Instruction </mat-label>
+                    <textarea  matInput placeholder="" formControlName="cookingInstruction" required></textarea>
+                    <mat-error *ngIf="addRecipeFormGroup.controls['cookingInstruction'].hasError('required')" > Cooking instruction is required </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" (click)="onAddRecipe()">CREATE</button>
+    <button mat-button mat-dialog-close>CANCEL</button>
+</mat-dialog-actions>
