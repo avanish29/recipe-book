@@ -6,7 +6,6 @@ import com.recipebook.domain.entities.RecipeIngredient;
 import com.recipebook.domain.entities.User;
 import com.recipebook.domain.values.RecipeRequest;
 import com.recipebook.domain.values.RecipeResponse;
-import com.recipebook.domain.values.SignupRequest;
 import com.recipebook.domain.values.UserPrincipal;
 import com.recipebook.repository.UserRepository;
 import com.recipebook.service.mappers.RecipeMapper;
@@ -23,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author - AvanishKishorPandey
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RecipeMapperTest {
-    private RecipeMapper recipeMapper = RecipeMapper.INSTANCE;
+    private final RecipeMapper recipeMapper = RecipeMapper.INSTANCE;
 
     private UserRepository userRepository;
 
@@ -73,7 +73,7 @@ class RecipeMapperTest {
 
         Assertions.assertThat(resultEntity).isNotNull();
         Assertions.assertThat(resultEntity.getUuid()).isNotNull();
-        Assertions.assertThat(resultEntity.getSuitableFor()).isNotNull().isEqualTo(recipeEntity.getSuitableFor());
+        Assertions.assertThat(resultEntity.getSuitableFor()).isEqualTo(recipeEntity.getSuitableFor());
         Assertions.assertThat(resultEntity.getName()).isNotNull().isEqualTo(recipeEntity.getName());
         Assertions.assertThat(resultEntity.getCookingInstruction()).isNotNull().isEqualTo(recipeEntity.getCookingInstruction());
         Assertions.assertThat(resultEntity.isVegetarian()).isEqualTo(recipeEntity.getVegetarian());
@@ -115,8 +115,7 @@ class RecipeMapperTest {
         recipeEntity.setName("Test");
         recipeEntity.setVegetarian(true);
         recipeEntity.setSuitableFor(2);
-        List<Ingredient> ingredients = List.of("Test Ingredient1", "Test Ingredient2", "Test Ingredient3").stream()
-                        .map(Ingredient::new).collect(Collectors.toList());
+        List<Ingredient> ingredients = Stream.of("Test Ingredient1", "Test Ingredient2", "Test Ingredient3").map(Ingredient::new).collect(Collectors.toList());
         recipeEntity.setRecipeIngredient(new RecipeIngredient(ingredients));
         recipeEntity.setCookingInstruction("Test Cooking Instruction");
         return recipeEntity;

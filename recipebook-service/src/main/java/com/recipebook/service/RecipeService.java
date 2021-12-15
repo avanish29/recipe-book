@@ -32,6 +32,7 @@ import java.util.Optional;
 @Transactional
 @Slf4j
 public class RecipeService {
+    private static final String ENTITY_NAME = "Recipe";
     private static final RecipeMapper RECIPE_MAPPER_INSTANCE = RecipeMapper.INSTANCE;
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
@@ -62,7 +63,7 @@ public class RecipeService {
         return recipeRepository.findOneByGuid(guid)
                 .filter(this::hasPermission)
                 .map(RECIPE_MAPPER_INSTANCE::toResponse)
-                .orElseThrow(() -> new ResourceNotFoundException("Recipe", "GUID", guid));
+                .orElseThrow(() -> new ResourceNotFoundException(ENTITY_NAME, "GUID", guid));
     }
 
     public RecipeResponse updateRecipe(@NonNull final RecipeRequest updateRequest) {
@@ -73,16 +74,14 @@ public class RecipeService {
                     this.recipeRepository.save(recipe);
                     return RECIPE_MAPPER_INSTANCE.toResponse(recipe);
                 })
-                .orElseThrow(() -> new ResourceNotFoundException("Recipe", "GUID", updateRequest.getGuid()));
+                .orElseThrow(() -> new ResourceNotFoundException(ENTITY_NAME, "GUID", updateRequest.getGuid()));
     }
 
     public void deleteRecipe(@NonNull final String recipeId) {
         recipeRepository.findOneByGuid(recipeId)
                 .filter(this::hasPermission)
-                .ifPresentOrElse(recipe -> {
-                    recipeRepository.deleteById(recipe.getId());
-                }, () -> {
-                    throw new ResourceNotFoundException("Recipe", "GUID", recipeId);
+                .ifPresentOrElse(recipe -> recipeRepository.deleteById(recipe.getId()), () -> {
+                    throw new ResourceNotFoundException(ENTITY_NAME, "GUID", recipeId);
                 });
     }
 
