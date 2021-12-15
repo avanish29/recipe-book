@@ -12,11 +12,11 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class AuthRequest {
-    @NotBlank
+    @NotBlank(message = "Username is required")
     @Email
     private String username;
 
-    @NotBlank
+    @NotBlank(message = "Password is required")
     @ToString.Exclude
     private String password;
 }

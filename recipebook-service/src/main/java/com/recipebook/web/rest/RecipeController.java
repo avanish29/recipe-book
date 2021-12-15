@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
  */
 
 @RestController
-@RequestMapping(value = "/recipes", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/recipes")
 @Api(tags = "Recipes", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 public class RecipeController {
@@ -50,7 +50,7 @@ public class RecipeController {
             @ApiResponse(code = 401, message = "You did not supply a valid Authorization header. The header was omitted or your API key was not valid. The response will contain an Errors JSON Object with the specific errors.", response = APIError.class),
             @ApiResponse(code = 500, message = "There was an internal error. The response will contain an Errors JSON Object with the specific errors.", response = APIError.class)
     })
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<RecipeResponse> createRecipe(@RequestBody @Valid RecipeRequest recipeRequest) throws URISyntaxException {
         log.debug("REST request to CREATE recipe with payload : {}", recipeRequest);
@@ -83,7 +83,7 @@ public class RecipeController {
             @ApiResponse(code = 404, message = "The response will contain an Errors JSON Object with the specific errors.", response = APIError.class),
             @ApiResponse(code = 500, message = "There was an internal error. The response will contain an Errors JSON Object with the specific errors.", response = APIError.class)
     })
-    @PutMapping("/{recipeUUID}")
+    @PutMapping(value = "/{recipeUUID}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> updateRecipe(@PathVariable String recipeUUID, @RequestBody @Valid RecipeRequest recipeRequest) {
         log.debug("REST request to UPDATE recipe by GUID {} with payload : {}", recipeUUID, recipeRequest);
         recipeRequest.setGuid(recipeUUID);

@@ -22,3 +22,8 @@ spring:
     show-sql: ${SHOW_SQL:true}
   flyway:
     enabled: true
+
+api:
+  auth:
+    jwt:
+      tokenvalidityinseconds: 120

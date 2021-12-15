@@ -50,5 +50,5 @@ api:
   auth:
     jwt:
       secret: JDJ5JDEwJEdCSVFhZjZnRWVVOWltOFJUS2hJZ09aNXE1aGFEQS5BNUd6b2NTcjVDUi5zVThPVXNDVXdxasTARSIHNXDkDLWPSKAGXFSYBC
-      tokenvalidityinseconds: 120
+      tokenvalidityinseconds: 600
       refreshtokendurationinsec: 3600
